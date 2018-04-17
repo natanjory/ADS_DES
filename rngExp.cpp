@@ -3,8 +3,6 @@
 #include <stdlib.h> 
 #include <math.h>
 
-
-
 rngExp::rngExp(double vseed) {
 	seed=vseed;
 }
@@ -14,7 +12,7 @@ double rngExp::rngExp::myrand() {
 }
 
 double rngExp::exp(double lambda) {
-  double r = ((double) myrand() / (RAND_MAX));
-   return (log(1 - r))/-lambda;
+  double r = ((double)myrand() / (RAND_MAX));
+   return  (-lambda * (log(1 - r)));
 
 }

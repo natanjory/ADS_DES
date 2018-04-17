@@ -7,20 +7,22 @@
 #include "rngExp.h"
 #include <fstream>
 
-#define T_MAX 10000
+#define T_MAX 1000
 
 using namespace std;
 
 queue<double> myqueue;
- 
-enum estado{IDLE, BUSY};
 
-estado server_state= IDLE;
+enum estado {
+    IDLE, BUSY
+};
+
+estado server_state = IDLE;
 int queue_counter = 0;
 double sim_time = 0.0;
 double last_event_time = 0.0;
 double cumulated_queue_length;
-double busy_time_total;
+double busy_time_total = 0;
 
 void update_statistics() {
     double time_since_last_event = sim_time - last_event_time;
@@ -29,77 +31,94 @@ void update_statistics() {
         busy_time_total += time_since_last_event;
 }
 
+void dataSave(string nome, double valor) {
+    ofstream myfile;
+    myfile.open(nome.c_str(), std::ios::app);
+    myfile << valor << endl;
+    myfile.close();
+
+}
+
 int main(int argc, char** argv) {
-	double lambda1=3;
-	double lambda2=5;
-	double mean_processing=1/lambda2;
-	double mean_arrival=1/lambda1;
-	
-    
 
+    double mean_processing = 0.5;
+    double mean_arrival = 1;
+    int SeedA = 235;
+    int SeedS = 21;
+
+    double waiting_time_queue_total = 0.0;
     double waiting_time_total = 0.0;
-
     double next_departure = HUGE_VAL;
     double next_arrival;
     double t;
-    
-    rngExp *rng1= new rngExp(15);
-    rngExp *rng2= new rngExp(15);
-    
- //    cout<<rng1->exp(10)<<" , "<<rng1->exp(10)<<" , " << rng1->exp(10)<<endl ;
- //    cout<<rng2->exp(10)<<" , "<<rng2->exp(10)<<" , " << rng2->exp(10)<<endl ;
- 
- ofstream myfile;
-  myfile.open ("geracao.txt");
+
+    rngExp *rng1 = new rngExp(SeedA);
+    rngExp *rng2 = new rngExp(SeedS);
+
+    /* ofstream myfile;
+     myfile.open ("geracao.txt");
   
-  for( int a = 0; a < 10000; a = a + 1 ) {
-  myfile << rng1->exp(10)<<endl;
-}
+     for( int a = 0; a < 10000; a = a + 1 ) {
+     myfile << rng1->exp(10)<<endl;
+   }
   
-  myfile.close();
- 
- 
- 
- /*
-    while
-        (sim_time < T_MAX) {
-        if (next_arrival < next_departure)
+     myfile.close();
+     */
+
+    remove("Gerado_Departure.txt");
+    remove("Gerado_Arrival.txt");
+
+    while (sim_time < T_MAX) {
+
+        if (next_arrival < next_departure) {
             sim_time = next_arrival;
-        else
+        } else {
             sim_time = next_departure;
-		update_statistics();
+        }
+        update_statistics();
+
+
         if (next_arrival < next_departure) {
             if (server_state == IDLE) {
                 server_state = BUSY;
-                next_departure = sim_time + rng2->exp(mean_processing);
+                double gerado = rng2->exp(mean_processing);
+                dataSave("Gerado_Departure.txt", gerado);
+                next_departure = sim_time + gerado;
             } else {
                 myqueue.push(sim_time);
             }
-			next_arrival = sim_time + rng1->exp(mean_arrival);
+            double gerado_arrival = rng1->exp(mean_arrival);
+            dataSave("Gerado_Arrival.txt", gerado_arrival);
+            next_arrival = sim_time + gerado_arrival;
         } else {
             if (myqueue.empty()) {
                 server_state = IDLE;
                 next_departure = HUGE_VAL;
             } else {
                 t = myqueue.front();
+                //   waiting_time_queue_total+=t;
                 myqueue.pop();
-                next_departure = sim_time + rng2->exp(mean_processing);
+                double gerado2 = rng2->exp(mean_processing);
+                dataSave("Gerado_Departure.txt", gerado2);
+                next_departure = sim_time + gerado2;
                 queue_counter++;
-				waiting_time_total = sim_time - t;
-			
+                waiting_time_total = sim_time - t;
+                waiting_time_queue_total += waiting_time_total;
+
             }
         }
         last_event_time = sim_time;
     }
 
-
     // at the end of the simulation:
 
-	double avg_queue_length = cumulated_queue_length / sim_time;
+    double avg_queue_length = cumulated_queue_length / sim_time;
     double avg_utilization = busy_time_total / sim_time;
-    //double man_waiting_time_queue= waiting_time_queue_total/queue_counter;
-cout<< avg_queue_length<<"    "<<avg_utilization<<endl;
-*/
+    double avg_waiting_time_queue = waiting_time_queue_total / queue_counter;
+
+    cout << "avg_queue_length: " << avg_queue_length << endl << "avg_utilization: " << avg_utilization << endl;
+    cout << "avg_waiting_time_queue: " << avg_waiting_time_queue << endl;
+
     return 0;
 }
 

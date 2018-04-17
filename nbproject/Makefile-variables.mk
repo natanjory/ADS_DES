@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=ads_sed
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/ads_sed
+CND_ARTIFACT_NAME_Debug=ads_des
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/ads_des
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=adssed.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/adssed.tar
+CND_PACKAGE_NAME_Debug=adsdes.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/adsdes.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=ads_sed
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/ads_sed
+CND_ARTIFACT_NAME_Release=ads_des
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/ads_des
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=adssed.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/adssed.tar
+CND_PACKAGE_NAME_Release=adsdes.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/adsdes.tar
 #
 # include compiler specific variables
 #
