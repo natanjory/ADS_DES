@@ -1,4 +1,3 @@
-
 #include <cstdlib>
 #include <stdlib.h>
 #include <iostream>
@@ -8,6 +7,10 @@
 #include <fstream>
 
 #define T_MAX 1000
+#define SeedA 235
+#define SeedS 21
+#define mean_processing 0.5
+#define mean_arrival 1
 
 using namespace std;
 
@@ -41,13 +44,7 @@ void dataSave(string nome, double valor) {
 
 int main(int argc, char** argv) {
 
-    double mean_processing = 0.5;
-    double mean_arrival = 1;
-    int SeedA = 235;
-    int SeedS = 21;
-
     double waiting_time_queue_total = 0.0;
-    double waiting_time_total = 0.0;
     double next_departure = HUGE_VAL;
     double next_arrival;
     double t;
@@ -102,8 +99,7 @@ int main(int argc, char** argv) {
                 dataSave("Gerado_Departure.txt", gerado2);
                 next_departure = sim_time + gerado2;
                 queue_counter++;
-                waiting_time_total = sim_time - t;
-                waiting_time_queue_total += waiting_time_total;
+                waiting_time_queue_total += sim_time - t;
 
             }
         }
@@ -115,8 +111,9 @@ int main(int argc, char** argv) {
     double avg_queue_length = cumulated_queue_length / sim_time;
     double avg_utilization = busy_time_total / sim_time;
     double avg_waiting_time_queue = waiting_time_queue_total / queue_counter;
-
-    cout << "avg_queue_length: " << avg_queue_length << endl << "avg_utilization: " << avg_utilization << endl;
+    cout<<"Resultados para simulação com SeedA="<<SeedA<<"; SeedS="<<SeedS<<":"<<endl<<endl;
+    cout << "avg_queue_length: " << avg_queue_length << endl;
+    cout << "avg_utilization: " << avg_utilization << endl;
     cout << "avg_waiting_time_queue: " << avg_waiting_time_queue << endl;
 
     return 0;
