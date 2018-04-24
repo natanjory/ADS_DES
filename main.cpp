@@ -56,10 +56,8 @@ int main(int argc, char** argv) {
 
     remove("Gerado_Departure.txt");
     remove("Gerado_Arrival.txt");
-    remove("pushFila_simTime.txt");
-    remove("pushFila_filaSize.txt");
-    remove("popFila_simTime.txt");
-    remove("popFila_filaSize.txt");
+    remove("Fila_simTime.txt");
+    remove("Fila_filaSize.txt");
 
     while (sim_time < T_MAX) {
 
@@ -79,8 +77,8 @@ int main(int argc, char** argv) {
                 next_departure = sim_time + gerado;
             } else {
                 myqueue.push(sim_time);
-                dataSave("pushFila_simTime.txt", sim_time);
-                dataSave("pushFila_filaSize.txt", myqueue.size());
+                dataSave("Fila_simTime.txt", sim_time);
+                dataSave("Fila_filaSize.txt", myqueue.size());
 
             }
             double gerado_arrival = rng1->exp(mean_arrival);
@@ -94,8 +92,8 @@ int main(int argc, char** argv) {
             } else {
                 t = myqueue.front();
                 myqueue.pop();
-                dataSave("popFila_simTime.txt", sim_time);
-                dataSave("popFila_filaSize.txt", myqueue.size());
+                dataSave("Fila_simTime.txt", sim_time);
+                dataSave("Fila_filaSize.txt", myqueue.size());
                 
                 double gerado2 = rng2->exp(mean_processing);
                 dataSave("Gerado_Departure.txt", gerado2);
