@@ -6,7 +6,7 @@
 #include "rngExp.h"
 #include <fstream>
 
-#define T_MAX 10000  
+#define T_MAX 100000  
 #define SeedA 235
 #define SeedS 21
 #define mean_processing 0.5
@@ -26,6 +26,7 @@ double sim_time = 0.0;
 double last_event_time = 0.0;
 double cumulated_queue_length;
 double busy_time_total = 0;
+double count_arrival=0.0;
 
 void update_statistics() {
     double time_since_last_event = sim_time - last_event_time;
@@ -74,8 +75,12 @@ int main(int argc, char** argv) {
                 next_departure = sim_time + gerado;
             } else {
                 myqueue.push(sim_time);
+              //  dataSave("pushFila_simTime.txt", sim_time);
+              //  dataSave("pushFila_queue_counter.txt", queue_counter);
+                
             }
             double gerado_arrival = rng1->exp(mean_arrival);
+            count_arrival++;
             dataSave("Gerado_Arrival.txt", gerado_arrival);
             next_arrival = sim_time + gerado_arrival;
         } else {
@@ -100,7 +105,7 @@ int main(int argc, char** argv) {
 
     double avg_queue_length = cumulated_queue_length / sim_time;
     double avg_utilization = busy_time_total / sim_time;
-    double avg_waiting_time_queue = waiting_time_queue_total / queue_counter;
+    double avg_waiting_time_queue = waiting_time_queue_total / count_arrival;
     cout<<"Simulação com SeedA= "<<SeedA<<"; SeedS= "<<SeedS<<":"<<"; Tempo maximo: "<< T_MAX<<endl<<endl;
     cout << "avg_queue_length: " << avg_queue_length << endl;
     cout << "avg_utilization: " << avg_utilization << endl;
