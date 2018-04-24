@@ -27,3 +27,18 @@ xlabel('tempo de simulacao')
 ylabel('tamanho da fila')
 xlim([0,interval])
 ylim([-1,8])
+
+%% Calculo dos valores teoricos
+
+lamb=1;
+u=2;
+p=lamb/u;
+
+%a utilizacao  do  sistema
+U = p
+
+%numero medio  da requisicoes na fila;
+E_Nq=p^2/(1-p)
+
+%tempo  medio na  fila
+E_Wq=p/(u - lamb)
